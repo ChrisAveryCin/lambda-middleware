@@ -1,6 +1,6 @@
 {
   "name": "@cinch-labs/lambda-middleware",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript middleware for AWS Lambda APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
