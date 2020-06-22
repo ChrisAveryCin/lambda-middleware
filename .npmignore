@@ -1,0 +1,9 @@
+node_modules
+coverage
+.DS_Store
+src/
+.github
+jest.config.js
+babel.config.js
+.eslintrc.js
+tsconfig.json
