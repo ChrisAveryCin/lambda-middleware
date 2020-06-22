@@ -2,8 +2,8 @@
   "name": "@cinch-labs/lambda-middleware",
   "version": "1.0.1",
   "description": "TypeScript middleware for AWS Lambda APIs.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "prepublishOnly": "tsc",
     "test": "jest",
