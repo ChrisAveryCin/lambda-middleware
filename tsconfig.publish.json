@@ -1,0 +1,14 @@
+{
+    "include": ["src/**/*"],
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "declaration": true,
+      "declarationMap": true,
+      "sourceMap": false,
+      "outDir": "./lib",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true
+    }
+  }

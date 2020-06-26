@@ -1,7 +1,8 @@
 import 'source-map-support/register';
 
 import { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
-import { APIGatewayHandler } from '../';
+import { APIGatewayHandler } from '../types';
+
 
 export class RequestData {
     time: string;

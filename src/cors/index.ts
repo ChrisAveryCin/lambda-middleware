@@ -1,8 +1,8 @@
 import 'source-map-support/register';
 
-import { APIGatewayHandler } from '../';
 import { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
 import { jsonError } from '../response';
+import { APIGatewayHandler } from '../types';
 
 // CorsConfig allows configuration of CORS.
 export class CorsConfig {
