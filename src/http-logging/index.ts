@@ -1,9 +1,7 @@
 import 'source-map-support/register';
 
 import { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
-import { APIGatewayHandler } from '../types';
-
-
+import { APIGatewayHandler, MiddlewareFactory } from '../types';
 export class RequestData {
     time: string;
     src: string;
@@ -38,15 +36,24 @@ const inRange = (n: number, from: number, to: number): number => n >= from && n 
 export type OnRequestCompleteFunction = (data: RequestData) => void;
 export type DateFunction = () => Date;
 
+type HttpLoggingConfig = {
+    onRequestComplete : OnRequestCompleteFunction;
+    now: DateFunction
+}
+
 const DefaultLogger: OnRequestCompleteFunction = (data: RequestData) => console.log(JSON.stringify(data));
 const DefaultDateFunction: DateFunction = () => new Date();
 
+const defaultConfig: HttpLoggingConfig = {
+    now : DefaultDateFunction,
+    onRequestComplete : DefaultLogger
+}
+
 // withHttpLogging logs HTTP information - the HTTP status code, response body length, time taken, method and path.
-export const withHttpLogging = (
+export const withHttpLogging:MiddlewareFactory<HttpLoggingConfig> = (config = defaultConfig) => (
     next: APIGatewayHandler,
-    onRequestComplete: OnRequestCompleteFunction = DefaultLogger,
-    now: DateFunction = DefaultDateFunction,
 ): APIGatewayHandler => async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyStructuredResultV2> => {
+    const {now, onRequestComplete} = config
     const start = now();
     const response = await next(event);
     onRequestComplete(new RequestData(start, now(), event, response));
