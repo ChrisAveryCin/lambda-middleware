@@ -2,8 +2,9 @@ import 'source-map-support/register';
 
 import { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
 import { jsonError, jsonResponse } from '../response';
-import { APIGatewayHandler } from '..';
+
 import { ObjectSchema, ValidationErrorItem } from "@hapi/joi";
+import { APIGatewayHandler } from '../types';
 
 // This is the request data passed to API handlers that allows them to gain access to the full detail
 // of the raw event.
@@ -53,6 +54,7 @@ export const withJsonGet = <TOutput>(handler: GetApi<TOutput>): APIGatewayHandle
     event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyStructuredResultV2> => {
     const output = await handler(new RequestContext(event));
+
     return jsonResponse<TOutput>(output.body, output.status);
 };
 

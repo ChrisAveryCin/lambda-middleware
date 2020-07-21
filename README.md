@@ -67,8 +67,40 @@ const errorExample = async (): Promise<Response<HelloOutput>> => {
 A bundling function combines all of the middleware for use.
 
 ```typescript
-export const get = buildGetApi<HelloOutput>(getExample);
 // Note that (optional) validation is passed in.
+
 export const post = buildPostApi<HelloInput, HelloOutput>(postExample, helloInputValidation);
 export const error = buildPostApi<HelloInput, HelloOutput>(errorExample);
+```
+
+Build your own pipelines
+
+```typescript
+const {getHandler, postHandler} = buildPipeline([
+    withHttpLogging(),
+    withCors({
+      allow: ['https://example.com'],
+      allowCredentials: false
+      }),
+    withJsonErrorHandling()
+])
+
+export const get = getHandler<HelloOutput>(getExample);
+```
+
+Write your own middleware with the `MiddlewareFactory<T>` type.
+
+```typescript
+type MyConfig = { foo: 'bar' };
+const myMiddleware: MiddlewareFactory<MyConfig> = (config) => (next: APIGatewayHandler) => async (event: APIGatewayProxyEventV2) => {
+    // do things to event
+    const res = next(event);
+    // do things to result
+    return res;
+}
+const { getHandler, postHandler } = buildPipeline([
+ myMiddleware()
+])
+
+export const get = getHandler<HelloOutput>(getExample);
 ```

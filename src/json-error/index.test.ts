@@ -7,7 +7,7 @@ describe('JSON error handling middleware', () => {
         // Arrange.
         const okHandler = async (_event: APIGatewayProxyEventV2): Promise<APIGatewayProxyStructuredResultV2> => jsonOK();
         const onError = jest.fn();
-        const handler = withJsonErrorHandling(okHandler, onError);
+        const handler = withJsonErrorHandling({ onError })(okHandler);
         const expected = jsonOK();
         // Act.
         const response = await handler({} as APIGatewayProxyEventV2);
@@ -22,7 +22,7 @@ describe('JSON error handling middleware', () => {
             throw expectedError;
         };
         const onError = jest.fn();
-        const handler = withJsonErrorHandling(errorHandler, onError);
+        const handler = withJsonErrorHandling({ onError })(errorHandler);
         const expected = `{"msg":"unhandled error","code":500}`;
         const event = {} as APIGatewayProxyEventV2
         // Act.

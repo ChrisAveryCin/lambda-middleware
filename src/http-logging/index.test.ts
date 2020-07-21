@@ -24,7 +24,7 @@ describe('HTTP logging middleware', () => {
         const mockLogger = (data: RequestData) => {
             expect(data).toEqual(expectedData);
         };
-        const handler = withHttpLogging(OKHandler, mockLogger, now);
+        const handler = withHttpLogging({onRequestComplete: mockLogger, now})(OKHandler);
         const expected = jsonOK();
         // Act.
         const response = await handler({} as APIGatewayProxyEventV2);

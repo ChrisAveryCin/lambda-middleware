@@ -1,8 +1,8 @@
 import 'source-map-support/register';
 
-import { APIGatewayHandler } from '../';
 import { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
 import { jsonError } from '../response';
+import { APIGatewayHandler, MiddlewareFactory } from '../types';
 
 // CorsConfig allows configuration of CORS.
 export class CorsConfig {
@@ -22,9 +22,9 @@ const corsIsAllowed = (conf: CorsConfig, origin: string): boolean =>
 
 // withCors creates middleware that applies CORS headers to the response, and validates CORS
 // headers present on the request.
-export const withCors = (next: APIGatewayHandler, conf: CorsConfig = DefaultCorsConfig): APIGatewayHandler => async (
-    event: APIGatewayProxyEventV2,
-): Promise<APIGatewayProxyStructuredResultV2> => {
+export const withCors: MiddlewareFactory<CorsConfig> = (conf: CorsConfig = DefaultCorsConfig) => (
+    next: APIGatewayHandler,
+): APIGatewayHandler => async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyStructuredResultV2> => {
     if (!corsIsAllowed(conf, event.headers?.Origin)) {
         return jsonError(`invalid CORS origin: '${event.headers.Origin}'`, 403);
     }

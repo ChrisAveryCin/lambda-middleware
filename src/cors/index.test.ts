@@ -7,7 +7,7 @@ const OKHandler = async (_event: APIGatewayProxyEventV2): Promise<APIGatewayProx
 describe('CORS middleware', () => {
     it('allows access to sites if no Origin header is present', async () => {
         // Arrange.
-        const handler = withCors(OKHandler);
+        const handler = withCors()(OKHandler);
         const expected = jsonOK();
         // Act.
         const response = await handler({} as APIGatewayProxyEventV2);
@@ -16,7 +16,7 @@ describe('CORS middleware', () => {
     });
     it('allows access to sites if an Origin header is present, but a wildcard allow is in place (default)', async () => {
         // Arrange.
-        const handler = withCors(OKHandler);
+        const handler = withCors()(OKHandler);
         const request = {
             headers: {
                 Origin: 'https://example.com',
@@ -30,7 +30,7 @@ describe('CORS middleware', () => {
     });
     it('restricts access to sites if the Origin header is not allow-listed', async () => {
         // Arrange.
-        const handler = withCors(OKHandler, new CorsConfig(new Array<string>('https://example.com'), true));
+        const handler = withCors(new CorsConfig(new Array<string>('https://example.com'), true))(OKHandler);
         const request = {
             headers: {
                 Origin: 'https://another.com',
@@ -44,7 +44,7 @@ describe('CORS middleware', () => {
     });
     it('allows access to sites if the Origin header is allow-listed', async () => {
         // Arrange.
-        const handler = withCors(OKHandler, new CorsConfig(new Array<string>('https://example.com'), true));
+        const handler = withCors(new CorsConfig(new Array<string>('https://example.com'), true))(OKHandler);
         const request = {
             headers: {
                 Origin: 'https://example.com',
