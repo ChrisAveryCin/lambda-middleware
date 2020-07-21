@@ -88,7 +88,7 @@ const {getHandler, postHandler} = buildPipeline([
 export const get = getHandler<HelloOutput>(getExample);
 ```
 
-Write you own middleware with the MiddlewareFactory<T> type
+Write your own middleware with the `MiddlewareFactory<T>` type.
 
 ```typescript
 type MyConfig = {foo: 'bar'}
