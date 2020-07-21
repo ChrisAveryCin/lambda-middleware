@@ -91,7 +91,7 @@ export const get = getHandler<HelloOutput>(getExample);
 Write your own middleware with the `MiddlewareFactory<T>` type.
 
 ```typescript
-type MyConfig = {foo: 'bar'}
+type MyConfig = { foo: 'bar' };
 const myMiddleware: MiddlewareFactory<MyConfig> = (config) => (next: APIGatewayHandler) => async (event: APIGatewayProxyEventV2) => {
     // do things to event
     const res = next(event)
