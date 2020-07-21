@@ -94,7 +94,7 @@ Write your own middleware with the `MiddlewareFactory<T>` type.
 type MyConfig = { foo: 'bar' };
 const myMiddleware: MiddlewareFactory<MyConfig> = (config) => (next: APIGatewayHandler) => async (event: APIGatewayProxyEventV2) => {
     // do things to event
-    const res = next(event)
+    const res = next(event);
     // do things to result
     return res;
 }
