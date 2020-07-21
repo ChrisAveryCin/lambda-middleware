@@ -22,7 +22,7 @@ describe('JSON error handling middleware', () => {
             throw expectedError;
         };
         const onError = jest.fn();
-        const handler = withJsonErrorHandling({onError})(errorHandler);
+        const handler = withJsonErrorHandling({ onError })(errorHandler);
         const expected = `{"msg":"unhandled error","code":500}`;
         const event = {} as APIGatewayProxyEventV2
         // Act.
