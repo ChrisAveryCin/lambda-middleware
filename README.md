@@ -96,7 +96,7 @@ const myMiddleware: MiddlewareFactory<MyConfig> = (config) => (next: APIGatewayH
     // do things to event
     const res = next(event)
     // do things to result
-    return res
+    return res;
 }
 const { getHandler, postHandler } = buildPipeline([
  myMiddleware()
